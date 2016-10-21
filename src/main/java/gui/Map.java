@@ -34,7 +34,8 @@ public class Map extends Panel {
 	Tree[] treespos = new Tree[TREECOUNT];
 	Tree[] branchespos = new Tree[BRANCHESCOUNT];
 	RGB bkgColor = new TextColor.RGB(165, 127, 61);
-	
+	int [] bridge_pos = new int[1];
+        RGB bridge_color= new TextColor.RGB(155,92,52);
 	Characters _chars;
 
 	EmptySpace land;
@@ -49,6 +50,7 @@ public class Map extends Panel {
 		
 		generateWater();
 		generateTrees();
+                final int locBridge = mRand.nextInt(waterpos.length);
 
 		land = new EmptySpace(new TextColor.RGB(165, 127, 61)) {
 			protected ComponentRenderer<EmptySpace> createDefaultRenderer() {
@@ -81,7 +83,9 @@ public class Map extends Panel {
 						 * Creates the river
 						 */
 						graphics.setForegroundColor(new TextColor.RGB(30, 150, 200));
+                                                
 						for (int i = 0; i < waterpos.length; i++) {
+                                                        graphics.setForegroundColor(TextColor.ANSI.BLUE);
 							graphics.setBackgroundColor(new TextColor.RGB(30, 150, 100));
 							graphics.putString(waterpos[i], i, String.valueOf(SymbolsMirk.WATER[2]));
 							graphics.setBackgroundColor(bkgColor);
@@ -89,8 +93,19 @@ public class Map extends Panel {
 							graphics.putString(waterpos[i]+1, i, String.valueOf(SymbolsMirk.WATER[1]));
 							graphics.putString(waterpos[i]-2, i, String.valueOf(SymbolsMirk.WATER[0]));
 							graphics.putString(waterpos[i]+2, i, String.valueOf(SymbolsMirk.WATER[0]));
-						}
+                                                        graphics.putString(14, 4, String.valueOf(SymbolsMirk.WATER[2]));
+                                                        
+                                                        if (i==locBridge){
+                                                          graphics.setBackgroundColor(bridge_color);
+                                                          graphics.setForegroundColor(bridge_color);
+                                                          graphics.putString(waterpos[i], i, String.valueOf(SymbolsMirk.WATER[2]));
+                                                          bridge_pos = new int [] {waterpos[i],i};
+                                                        }   
+                                                        }
 						
+                                                
+                                                
+                                               
 						/*
 						 * Draw characters
 						 */
@@ -115,10 +130,11 @@ public class Map extends Panel {
 	
 	public void generateWater() {
 		int col = mRand.nextInt(COLUMNS);
-		for (int i = 0; i < LINES; i++) {
+                for (int i = 0; i < LINES; i++) {
 			waterpos[i] = col + (mRand.nextInt(2) - 1);
 		}
 	}
+        
 	
 	public void generateTrees() {
 		for (int i=0; i < TREECOUNT; i++)
@@ -145,7 +161,7 @@ public class Map extends Panel {
 		case 'a':
 			player.set_position(new TerminalPosition(ppos.getColumn()-1, ppos.getRow()));
 			break;
-		case 'd':
+		case 'd'://if new pos ocupied no set position
 			player.set_position(new TerminalPosition(ppos.getColumn()+1, ppos.getRow()));
 			break;
 		default:
