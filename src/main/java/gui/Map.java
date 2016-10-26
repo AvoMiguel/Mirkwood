@@ -33,7 +33,7 @@ public class Map extends Panel {
 	int[] waterpos = new int[LINES];
 	Tree[] treespos = new Tree[TREECOUNT];
 	Tree[] branchespos = new Tree[BRANCHESCOUNT];
-	RGB bkgColor = new TextColor.RGB(165, 127, 61);
+	public static RGB bkgColor = new TextColor.RGB(165, 127, 61);
 	int [] bridge_pos = new int[1];
         RGB bridge_color= new TextColor.RGB(155,92,52);
 	Characters _chars;
@@ -70,15 +70,7 @@ public class Map extends Panel {
 						/*
 						 * Creates the trees and branches
 						 */
-						for (Tree t : treespos) {
-							graphics.setForegroundColor(t.getColor());
-							graphics.putString(t.getmPosition().getColumn(), t.getmPosition().getRow(), String.valueOf(t.getmTree()));
-						}
-						for (Tree t : branchespos) {
-							graphics.setForegroundColor(t.getColor());
-							graphics.putString(t.getmPosition().getColumn(), t.getmPosition().getRow(), String.valueOf(t.getmTree()));
-						}
-						
+											
 						/*
 						 * Creates the river
 						 */
